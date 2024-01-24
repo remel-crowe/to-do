@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <title>Document</title>
+</head>
+<body>
+    <section id="header-section">
+        <nav id="navBar" class="navbar">
+        <h1>Rem's To-Do</h1>
+        <ul class="nav-buttons">
+            <li id="projects-btn">Projects</li>
+            <li id="contact-btn">Sign In</li>
+        </ul>
+    </nav>
+    </section>
+    <section id="main-section">
+        
+        <button id="addProject-btn" class="btn">Add Project+</button>
+        <button id="addTask-btn" class="btn">Add Task +</button>
+        <div class="dashboard">
+            <div id="projects" class="project-area"></div>
+            <div id="tasks" class="task-area"></div>
+        </div>
+        
+    </section>
+
+    <section id="dialog-section">
+        <div id="dialog=container">
+            <dialog id="dialog">
+        <button id='dialogCloseBtn'>Close</button>
+        <form id="frm">
+          <label for='title'>Title</label>
+          <input type="text" id='title' name='title' required>
+          <label for='description'>Description</label>
+          <input type="text" id='description' name='description' required>
+          <label for='date'>Due Date</label>
+          <input type="date" id='date' name='date'>
+          <label for='priority'>Priority</label>
+          <select name="priority" id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="Urgent">Urgent</option>
+          </select>
+          <button type="submit" id='taskSubmit'>Add</button>
+        </form>
+      </dialog>
+        </div>
+        
+    </section>
+    
+    
+    <script src="./main.js"></script>
+</body>
+</html>
