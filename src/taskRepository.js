@@ -1,24 +1,25 @@
-import { createTask } from "./task";
+import Task from "./task";
 
-export const taskRepository = (() => {
-  let currentTasks = [];
-
-  function getTasks() {
-    return currentTasks;
+export default class TaskRepository {
+  constructor(id) {
+    this.id = id;
+    this.tasks = [];
   }
 
-  function addNewTask(obj) {
-    const { title, description, date, priority } = obj;
-    let newTask = createTask(title, description, date, priority);
-    currentTasks.push(newTask);
+  getTasks() {
+    return this.tasks;
   }
 
-  function removeTask(task) {
-    const index = currentTasks.indexOf(task);
+  addTask(task) {
+    const { title, description, date, priority } = task;
+    let newTask = new Task(title, description, date, priority);
+    this.tasks.push(newTask);
+  }
+
+  removeTask(task) {
+    const index = this.tasks.indexOf(task);
     if (index !== -1) {
-      currentTasks.splice(index, 1);
+      this.tasks.splice(index, 1);
     }
   }
-
-  return { getTasks, addNewTask, removeTask };
-})();
+}

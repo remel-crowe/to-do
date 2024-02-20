@@ -1,13 +1,12 @@
-import { taskRepository } from "./taskRepository";
+import TaskRepository from "./taskRepository";
 
 export const handleDom = (() => {
+  const default_repo = new TaskRepository("DEFAULT");
   const content = document.getElementById("tasks");
   const dialog = document.querySelector("#dialog");
-  const addTaskButton = document.getElementById("addTask-btn");
+  const addTaskButton = document.getElementById("add-task-btn");
   const closeDialog = document.getElementById("dialogCloseBtn");
   const formButton = document.getElementById("taskSubmit");
-  const form = document.getElementById("frm");
-
   const title = document.getElementById("title");
   const description = document.getElementById("description");
   const date = document.getElementById("date");
@@ -16,7 +15,15 @@ export const handleDom = (() => {
   addTaskButton.addEventListener("click", () => {
     dialog.showModal();
   });
+
   closeDialog.addEventListener("click", () => {
+    dialog.close();
+  });
+
+  formButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    handleAdd(default_repo);
+    displayTasks(default_repo);
     dialog.close();
   });
 
@@ -29,28 +36,35 @@ export const handleDom = (() => {
     };
   }
 
-  function displayTasks() {
-    content.innerHTML = "";
-    let currentTasks = taskRepository.getTasks();
-    currentTasks.forEach((task) => {
-      let taskDiv = document.createElement("div");
-      taskDiv.innerHTML = `
-          <p>${task.title}</p>
-          <p>${task.description}</p>
-          <p>${task.date}</p>
-          <p>${task.priority}</p>
-          `;
-      content.appendChild(taskDiv);
+  function displayTasks(repo) {
+    content.innerHTML = ""; // Clear content
+
+    repo.getTasks().forEach((task) => {
+      const taskElement = createTaskElement(task);
+      content.appendChild(taskElement);
     });
   }
 
-  formButton.addEventListener("click", (event) => {
-    event.preventDefault();
+  function createTaskElement(task) {
+    const div = document.createElement("div");
+    div.classList.add("task");
+    div.innerHTML = `
+      <div class="task-content">
+        <p>${task.title}</p>
+        <p>${task.description}</p>
+        <p class="date">${task.date}</p>
+        <p class="priority">${task.priority}</p>
+      </div>
+      <div class="task-actions">
+        <button>Edit</button>
+        <button>Delete</button>
+      </div>
+    `;
+    return div;
+  }
+
+  function handleAdd(repo) {
     const values = getValues();
-    // console.log(values);
-    taskRepository.addTask(values);
-    form.reset();
-    dialog.close();
-    displayTasks();
-  });
+    repo.addTask(values);
+  }
 })();
